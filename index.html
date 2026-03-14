@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Souranil Ghosh — Gaming & Esports Writer</title>
+  <meta name="description" content="Portfolio of Souranil Ghosh, gaming and esports content writer with 800+ published articles." />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; cursor: none; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #060610;
+      color: #e8e8f4;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --bg: #060610;
+      --surface: #0c0c1e;
+      --surface2: #12122a;
+      --cyan: #00e5cc;
+      --magenta: #ff2d6b;
+      --amber: #ffb830;
+      --text: #e8e8f4;
+      --text-muted: #7878a0;
+      --border: rgba(255,255,255,0.06);
+      --glow-cyan: 0 0 30px rgba(0,229,204,0.25);
+      --glow-mag: 0 0 30px rgba(255,45,107,0.25);
+      --radius: 16px;
+      --transition: 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ===== CUSTOM CURSOR ===== */
+    #cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--cyan);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transition: transform 0.1s;
+      mix-blend-mode: difference;
+    }
+    #cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(0,229,204,0.5);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transition: transform 0.15s ease, width 0.2s, height 0.2s, border-color 0.2s;
+    }
+    body.cursor-hover #cursor-ring {
+      width: 56px; height: 56px;
+      border-color: var(--magenta);
+      background: rgba(255,45,107,0.06);
+    }
+
+    /* ===== NOISE OVERLAY ===== */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px;
+      pointer-events: none; z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 2px; }
+
+    /* ===== CANVAS (particles) ===== */
+    #particles-canvas {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+      opacity: 0.5;
+    }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      transition: background var(--transition), backdrop-filter var(--transition);
+    }
+    nav.scrolled {
+      background: rgba(6,6,16,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      color: var(--cyan);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex; gap: 2.5rem; list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: color var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+      height: 1px; background: var(--cyan);
+      transform: scaleX(0); transition: transform var(--transition);
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-resume-btn {
+      padding: 0.5rem 1.4rem;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: transparent;
+      cursor: none;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background var(--transition), color var(--transition), box-shadow var(--transition);
+    }
+    .nav-resume-btn:hover {
+      background: var(--cyan);
+      color: var(--bg);
+      box-shadow: var(--glow-cyan);
+    }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; cursor: none;
+      background: none; border: none;
+    }
+    .hamburger span {
+      width: 24px; height: 2px; background: var(--text);
+      display: block; transition: all 0.3s;
+    }
+
+    /* ===== HERO ===== */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 8rem 4rem 4rem;
+      position: relative; z-index: 1;
+    }
+    .hero-content { max-width: 900px; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      font-size: 0.8rem; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 32px; height: 1px; background: var(--cyan);
+    }
+    .hero-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.9;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #fff 30%, var(--cyan) 70%, var(--magenta));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero-title {
+      font-family: 'Crimson Pro', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      font-style: italic;
+      color: var(--text-muted);
+      margin-top: 1rem; margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .hero-typewriter {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(0.9rem, 1.5vw, 1rem);
+      color: var(--text-muted);
+      max-width: 520px;
+      line-height: 1.8;
+      opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .typewriter-text { color: var(--amber); font-weight: 600; }
+    .cursor-blink {
+      display: inline-block; width: 2px; height: 1.1em;
+      background: var(--amber); vertical-align: text-bottom;
+      animation: blink 0.7s infinite;
+    }
+    .hero-actions {
+      display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.8s 1s forwards;
+    }
+    .btn-primary {
+      padding: 0.85rem 2.2rem;
+      background: linear-gradient(135deg, var(--cyan), #00b8a8);
+      color: #000;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700; font-size: 0.85rem;
+      letter-spacing: 1px; text-transform: uppercase;
+      border: none; border-radius: 6px;
+      cursor: none; text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s, box-shadow var(--transition);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--glow-cyan);
+    }
+    .btn-outline {
+      padding: 0.85rem 2.2rem;
+      background: transparent;
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600; font-size: 0.85rem;
+      letter-spacing: 1px; text-transform: uppercase;
+      border: 1px solid var(--border);
+      border-radius: 6px; cursor: none; text-decoration: none;
+      display: inline-block;
+      transition: border-color var(--transition), color var(--transition);
+    }
+    .btn-outline:hover {
+      border-color: var(--magenta);
+      color: var(--magenta);
+    }
+    .hero-scroll-indicator {
+      position: absolute; bottom: 3rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      opacity: 0; animation: fadeIn 1s 1.5s forwards;
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, transparent, var(--cyan));
+      animation: scrollAnim 1.5s ease-in-out infinite;
+    }
+    .scroll-text {
+      font-size: 0.65rem; letter-spacing: 3px;
+      text-transform: uppercase; color: var(--text-muted);
+    }
+
+    /* ===== STATS BAR ===== */
+    #stats {
+      position: relative; z-index: 1;
+      padding: 3rem 4rem;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 1.5rem 1rem;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      line-height: 1;
+      color: var(--cyan);
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.78rem; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-top: 0.4rem;
+    }
+
+    /* ===== SECTION WRAPPERS ===== */
+    .section {
+      position: relative; z-index: 1;
+      padding: 7rem 4rem;
+    }
+    .section-header {
+      margin-bottom: 4rem;
+    }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--magenta);
+      margin-bottom: 0.75rem;
+    }
+    .section-tag::before {
+      content: '//'; color: var(--text-muted);
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1;
+      letter-spacing: 1px;
+    }
+    .section-sub {
+      color: var(--text-muted);
+      max-width: 560px;
+      margin-top: 1rem;
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.1rem;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* ===== ABOUT ===== */
+    #about { background: var(--surface); }
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: start;
+    }
+    .about-text p {
+      font-size: 1rem; line-height: 1.9;
+      color: var(--text-muted); margin-bottom: 1.2rem;
+    }
+    .about-text p strong { color: var(--text); font-weight: 600; }
+    .about-text p em { color: var(--cyan); font-style: normal; }
+    .about-links { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .about-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: 0.8rem; font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all var(--transition);
+    }
+    .about-link:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      box-shadow: var(--glow-cyan);
+    }
+    .skills-block h3 {
+      font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 1rem; margin-top: 1.5rem;
+    }
+    .skills-block h3:first-child { margin-top: 0; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-tag {
+      padding: 0.4rem 0.9rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: 0.78rem; font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .skill-tag:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0,229,204,0.05);
+    }
+    .skill-tag.highlight {
+      border-color: rgba(0,229,204,0.3);
+      color: var(--cyan);
+      background: rgba(0,229,204,0.06);
+    }
+
+    /* ===== PORTFOLIO ===== */
+    #portfolio { background: var(--bg); }
+    .filter-bar {
+      display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 3rem;
+    }
+    .filter-btn {
+      padding: 0.5rem 1.2rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem; font-weight: 500;
+      color: var(--text-muted);
+      cursor: none;
+      transition: all var(--transition);
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--cyan);
+      color: var(--cyan);
+      background: rgba(0,229,204,0.06);
+    }
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+    .article-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      text-decoration: none;
+      display: block;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+      cursor: none;
+    }
+    .article-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform var(--transition);
+    }
+    .article-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,229,204,0.2);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.4), var(--glow-cyan);
+    }
+    .article-card:hover::before { transform: scaleX(1); }
+    .card-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .card-pub {
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 0.3rem 0.8rem;
+      border-radius: 50px;
+    }
+    .card-pub.itg {
+      background: rgba(255,184,48,0.1);
+      color: var(--amber);
+      border: 1px solid rgba(255,184,48,0.2);
+    }
+    .card-pub.sd {
+      background: rgba(0,229,204,0.08);
+      color: var(--cyan);
+      border: 1px solid rgba(0,229,204,0.2);
+    }
+    .card-pub.eg {
+      background: rgba(255,45,107,0.08);
+      color: var(--magenta);
+      border: 1px solid rgba(255,45,107,0.2);
+    }
+    .card-pub.custom {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+    .card-date { font-size: 0.72rem; color: var(--text-muted); }
+    .card-title {
+      font-size: 1rem; font-weight: 600;
+      color: var(--text); line-height: 1.4;
+      margin-bottom: 0.75rem;
+    }
+    .card-category {
+      font-size: 0.72rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .card-arrow {
+      position: absolute; bottom: 1.5rem; right: 1.8rem;
+      font-size: 1rem; color: var(--cyan);
+      opacity: 0; transform: translateX(-8px);
+      transition: all var(--transition);
+    }
+    .article-card:hover .card-arrow {
+      opacity: 1; transform: translateX(0);
+    }
+    .admin-card-btns {
+      display: none; gap: 0.5rem; margin-top: 1rem;
+    }
+    body.admin-mode .admin-card-btns { display: flex; }
+    .admin-edit-btn, .admin-del-btn {
+      padding: 0.3rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.72rem; font-weight: 600;
+      cursor: pointer; border: none;
+      font-family: 'Outfit', sans-serif;
+    }
+    .admin-edit-btn { background: rgba(0,229,204,0.15); color: var(--cyan); }
+    .admin-del-btn { background: rgba(255,45,107,0.15); color: var(--magenta); }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center; padding: 4rem;
+      color: var(--text-muted);
+    }
+    .empty-state .empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+    /* ===== EXPERIENCE ===== */
+    #experience { background: var(--surface); }
+    .timeline {
+      position: relative; max-width: 800px;
+    }
+    .timeline::before {
+      content: ''; position: absolute;
+      left: 16px; top: 8px; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--cyan), transparent);
+    }
+    .timeline-item {
+      padding-left: 3.5rem;
+      position: relative;
+      margin-bottom: 3rem;
+    }
+    .timeline-dot {
+      position: absolute; left: 8px; top: 8px;
+      width: 17px; height: 17px;
+      border: 2px solid var(--cyan);
+      border-radius: 50%;
+      background: var(--bg);
+      transition: background var(--transition), box-shadow var(--transition);
+    }
+    .timeline-item:hover .timeline-dot {
+      background: var(--cyan);
+      box-shadow: var(--glow-cyan);
+    }
+    .timeline-period {
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 0.3rem;
+    }
+    .timeline-company {
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--text); margin-bottom: 0.2rem;
+    }
+    .timeline-role {
+      font-size: 0.85rem; color: var(--text-muted);
+      font-style: italic; margin-bottom: 1rem;
+    }
+    .timeline-points { list-style: none; }
+    .timeline-points li {
+      font-size: 0.9rem; color: var(--text-muted);
+      padding: 0.3rem 0; padding-left: 1.2rem;
+      position: relative; line-height: 1.6;
+    }
+    .timeline-points li::before {
+      content: '→'; position: absolute; left: 0;
+      color: var(--cyan); font-size: 0.85rem;
+    }
+
+    /* ===== CERTIFICATIONS ===== */
+    #certifications { background: var(--bg); }
+    .cert-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .cert-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      transition: border-color var(--transition);
+    }
+    .cert-card:hover { border-color: rgba(0,229,204,0.2); }
+    .cert-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+    .cert-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .cert-issuer { font-size: 0.78rem; color: var(--cyan); letter-spacing: 1px; }
+
+    /* ===== CONTACT ===== */
+    #contact { background: var(--surface); text-align: center; }
+    .contact-inner { max-width: 640px; margin: 0 auto; }
+    .contact-big {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 0.95;
+      margin-bottom: 1.5rem;
+    }
+    .contact-big span { color: var(--cyan); }
+    .contact-sub {
+      color: var(--text-muted);
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.1rem; margin-bottom: 2.5rem;
+    }
+    .contact-links { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+    .contact-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--text); text-decoration: none;
+      transition: all var(--transition);
+    }
+    .contact-link:hover {
+      border-color: var(--cyan); color: var(--cyan);
+      box-shadow: var(--glow-cyan);
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      position: relative; z-index: 1;
+      padding: 2rem 4rem;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem; letter-spacing: 2px; color: var(--cyan);
+    }
+    .footer-copy {
+      font-size: 0.75rem; color: var(--text-muted);
+      cursor: pointer; user-select: none;
+      transition: color 0.2s;
+    }
+    .footer-copy:hover { color: var(--text); }
+    .footer-socials { display: flex; gap: 1rem; }
+    .footer-social {
+      width: 36px; height: 36px;
+      border: 1px solid var(--border); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); font-size: 0.85rem;
+      text-decoration: none;
+      transition: all var(--transition);
+    }
+    .footer-social:hover {
+      border-color: var(--cyan); color: var(--cyan);
+    }
+
+    /* ===== ADMIN PANEL ===== */
+    .admin-fab {
+      position: fixed; bottom: 2rem; right: 2rem;
+      z-index: 800;
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--magenta), #c0004a);
+      border: none; border-radius: 50%;
+      color: #fff; font-size: 1.2rem;
+      cursor: pointer; display: none;
+      align-items: center; justify-content: center;
+      box-shadow: var(--glow-mag);
+      transition: transform 0.2s;
+    }
+    .admin-fab:hover { transform: scale(1.1); }
+    body.admin-mode .admin-fab { display: flex; }
+
+    /* ===== MODALS ===== */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      z-index: 2000;
+      display: none; align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 2.5rem;
+      width: 100%; max-width: 480px;
+      position: relative;
+      animation: modalIn 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .modal.wide { max-width: 620px; }
+    .modal-close {
+      position: absolute; top: 1.2rem; right: 1.2rem;
+      background: none; border: none;
+      color: var(--text-muted); font-size: 1.2rem;
+      cursor: pointer; transition: color 0.2s;
+    }
+    .modal-close:hover { color: var(--magenta); }
+    .modal h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; letter-spacing: 1px; margin-bottom: 0.4rem;
+    }
+    .modal p.modal-sub { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.8rem; }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label {
+      display: block; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-muted); margin-bottom: 0.4rem;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%; padding: 0.75rem 1rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: 'Outfit', sans-serif; font-size: 0.9rem;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--cyan); }
+    .form-group select option { background: var(--surface); }
+    .form-group textarea { min-height: 80px; resize: vertical; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .btn-form-submit {
+      width: 100%; padding: 0.9rem;
+      background: linear-gradient(135deg, var(--cyan), #00b8a8);
+      color: #000; font-family: 'Outfit', sans-serif;
+      font-weight: 700; font-size: 0.9rem;
+      letter-spacing: 1px; text-transform: uppercase;
+      border: none; border-radius: 8px; cursor: pointer;
+      margin-top: 0.5rem;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-form-submit:hover { opacity: 0.9; transform: translateY(-1px); }
+    .form-error {
+      font-size: 0.8rem; color: var(--magenta);
+      margin-top: 0.3rem; display: none;
+    }
+    .form-error.show { display: block; }
+    /* Admin article list */
+    .admin-list { list-style: none; margin-top: 1.5rem; max-height: 300px; overflow-y: auto; }
+    .admin-list li {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.8rem; border-bottom: 1px solid var(--border);
+      font-size: 0.85rem; gap: 1rem;
+    }
+    .admin-list-title { flex: 1; color: var(--text); line-height: 1.4; }
+    .admin-list-pub { font-size: 0.7rem; color: var(--text-muted); }
+    .admin-list-del {
+      background: rgba(255,45,107,0.1); color: var(--magenta);
+      border: none; padding: 0.3rem 0.6rem; border-radius: 4px;
+      font-size: 0.72rem; cursor: pointer; flex-shrink: 0;
+    }
+
+    /* Notification toast */
+    .toast {
+      position: fixed; bottom: 6rem; right: 2rem;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem 1.5rem;
+      z-index: 9000; display: none; align-items: center; gap: 0.8rem;
+      animation: fadeUp 0.3s;
+      font-size: 0.88rem;
+    }
+    .toast.show { display: flex; }
+    .toast.success { border-color: rgba(0,229,204,0.3); color: var(--cyan); }
+    .toast.error { border-color: rgba(255,45,107,0.3); color: var(--magenta); }
+
+    /* ===== MOBILE NAV ===== */
+    .mobile-nav {
+      display: none;
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(6,6,16,0.97);
+      backdrop-filter: blur(20px);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 2rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem; letter-spacing: 2px;
+      color: var(--text); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .mobile-nav a:hover { color: var(--cyan); }
+    .mobile-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: none; border: none;
+      color: var(--text-muted); font-size: 1.5rem; cursor: pointer;
+    }
+
+    /* ===== KEYFRAMES ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; } 50% { opacity: 0; }
+    }
+    @keyframes scrollAnim {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes counterUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== REVEAL ON SCROLL ===== */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .cert-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .stat-item:nth-child(3) { border-top: 1px solid var(--border); }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links, .nav-resume-btn { display: none; }
+      .hamburger { display: flex; }
+      #hero, .section { padding-left: 1.5rem; padding-right: 1.5rem; }
+      #stats { padding: 2rem 1.5rem; }
+      footer { padding: 1.5rem; flex-direction: column; gap: 1.2rem; text-align: center; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .cert-grid { grid-template-columns: 1fr; }
+      .articles-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Background Particles -->
+<canvas id="particles-canvas"></canvas>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">SG</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="./resume/ATS_RESUME.pdf" target="_blank" class="nav-resume-btn">Resume ↗</a>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-close" id="mobileClose">✕</button>
+  <a href="#about" onclick="closeMobileNav()">About</a>
+  <a href="#portfolio" onclick="closeMobileNav()">Work</a>
+  <a href="#experience" onclick="closeMobileNav()">Experience</a>
+  <a href="#certifications" onclick="closeMobileNav()">Certs</a>
+  <a href="#contact" onclick="closeMobileNav()">Contact</a>
+  <a href="./resume/ATS_RESUME.pdf" target="_blank">Resume ↗</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Gaming &amp; Esports Journalist</div>
+    <h1 class="hero-name">SOURANIL<br/>GHOSH</h1>
+    <p class="hero-title">Content Writer &amp; Digital Storyteller</p>
+    <p class="hero-typewriter">
+      Crafting stories at the intersection of gaming and culture.<br/>
+      Specialising in <span class="typewriter-text" id="typewriter-word">esports</span><span class="cursor-blink"></span>
+    </p>
+    <div class="hero-actions">
+      <a href="#portfolio" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <span class="stat-number" data-target="800">0</span>
+      <span class="stat-label">Articles Published</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" data-target="3">0</span>
+      <span class="stat-label">Publications</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" data-target="3">0</span>
+      <span class="stat-label">Years of Experience</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" data-target="40">0</span>
+      <span class="stat-label">% Organic Growth</span>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">About Me</div>
+      <h2 class="section-title">The Writer Behind<br/>The Words</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          Hey, I'm <strong>Souranil Ghosh</strong> — a gaming journalist and content strategist
+          with a deep passion for esports, game culture, and digital storytelling.
+        </p>
+        <p>
+          With <em>800+ published articles</em> across platforms like India Today Gaming,
+          Sportsdunia, and EsportsGen, I've spent years translating fast-paced gaming events
+          into engaging, SEO-optimised content that drives real traffic and audience growth.
+        </p>
+        <p>
+          From FPS showdowns and MOBA meta breakdowns to battle royale guides and esports profiles —
+          I write content that resonates with both casual gamers and hardcore fans. Currently
+          pursuing my BTech in Computer Science at Sister Nivedita University, Kolkata,
+          blending technical knowledge with editorial craft.
+        </p>
+        <div class="about-links">
+          <a href="https://linkedin.com/in/souranil-ghosh-327236241" target="_blank" class="about-link">
+            🔗 LinkedIn
+          </a>
+          <a href="mailto:souranilghosh@gmail.com" class="about-link">✉ Email</a>
+          <a href="https://www.sportsdunia.com/authors/souranil-ghosh" target="_blank" class="about-link">
+            📝 Sportsdunia
+          </a>
+        </div>
+      </div>
+      <div class="skills-block reveal">
+        <h3>Content & Writing</h3>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">Esports Journalism</span>
+          <span class="skill-tag highlight">Game Reviews</span>
+          <span class="skill-tag highlight">News Features</span>
+          <span class="skill-tag">Opinion Pieces</span>
+          <span class="skill-tag">Guides & Walkthroughs</span>
+          <span class="skill-tag">Tech Journalism</span>
+        </div>
+        <h3>SEO & Analytics</h3>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">SEMrush</span>
+          <span class="skill-tag highlight">Google Analytics</span>
+          <span class="skill-tag">Yoast SEO</span>
+          <span class="skill-tag">Keyword Research</span>
+          <span class="skill-tag">On-page Optimisation</span>
+        </div>
+        <h3>Tools & Platforms</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">WordPress CMS</span>
+          <span class="skill-tag">Grammarly</span>
+          <span class="skill-tag">Hemingway Editor</span>
+          <span class="skill-tag">Canva</span>
+          <span class="skill-tag">Google Workspace</span>
+        </div>
+        <h3>Programming</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">C++</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">Python</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Portfolio</div>
+      <h2 class="section-title">Published Work</h2>
+      <p class="section-sub">A selection of articles from across gaming and esports publications.</p>
+    </div>
+    <!-- Filter Bar -->
+    <div class="filter-bar reveal" id="filterBar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="India Today Gaming">India Today Gaming</button>
+      <button class="filter-btn" data-filter="Sportsdunia">Sportsdunia</button>
+      <button class="filter-btn" data-filter="EsportsGen">EsportsGen</button>
+      <button class="filter-btn" data-filter="Custom">Other</button>
+    </div>
+    <!-- Articles Grid -->
+    <div class="articles-grid" id="articlesGrid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Experience</div>
+      <h2 class="section-title">Career Timeline</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-period">November 2025 — Present</div>
+        <div class="timeline-company">Sportsdunia</div>
+        <div class="timeline-role">Freelance Gaming Content Writer · Gurgaon, India</div>
+        <ul class="timeline-points">
+          <li>Creating engaging gaming content covering esports, industry news, and game reviews</li>
+          <li>Applying SEO best practices and analytics insights to optimise content performance</li>
+          <li>Collaborating with editorial team to maintain brand voice and meet deadlines</li>
+        </ul>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-period">May 2022 — November 2025</div>
+        <div class="timeline-company">India Today Gaming</div>
+        <div class="timeline-role">Content Writer · New Delhi, India</div>
+        <ul class="timeline-points">
+          <li>Published 700+ articles on esports, gaming, and technology, driving significant web traffic</li>
+          <li>Implemented SEO strategies using Google Analytics, SEMrush, and Yoast SEO</li>
+          <li>Produced news features, reviews, and opinion pieces for diverse gaming communities</li>
+          <li>Utilised WordPress CMS with strict adherence to editorial deadlines</li>
+        </ul>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-period">2022 — September 2025</div>
+        <div class="timeline-company">EsportsGen</div>
+        <div class="timeline-role">Content Writer · Remote</div>
+        <ul class="timeline-points">
+          <li>Wrote and edited 100+ esports articles covering major tournaments and player profiles</li>
+          <li>Improved organic search rankings by 40% through strategic keyword placement</li>
+          <li>Produced high-performing content across FPS, MOBA, and battle royale genres</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications" class="section">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-tag">Certifications</div>
+      <h2 class="section-title">Credentials</h2>
+    </div>
+    <div class="cert-grid">
+      <div class="cert-card reveal">
+        <div class="cert-icon">🐍</div>
+        <div class="cert-name">Python for Data Science, AI &amp; Development</div>
+        <div class="cert-issuer">Coursera / IBM</div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon">💡</div>
+        <div class="cert-name">Design Thinking: Insights to Inspiration</div>
+        <div class="cert-issuer">University of Virginia · Coursera</div>
+      </div>
+      <div class="cert-card reveal">
+        <div class="cert-icon">🧠</div>
+        <div class="cert-name">Think Again I: How to Understand Arguments</div>
+        <div class="cert-issuer">Duke University · Coursera</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="container">
+    <div class="contact-inner reveal">
+      <h2 class="contact-big">Let's Work<br/><span>Together</span></h2>
+      <p class="contact-sub">
+        Looking for a gaming journalist, esports writer, or SEO content specialist?
+        Let's create something great.
+      </p>
+      <div class="contact-links">
+        <a href="mailto:souranilghosh@gmail.com" class="contact-link">✉ Email Me</a>
+        <a href="https://linkedin.com/in/souranil-ghosh-327236241" target="_blank" class="contact-link">🔗 LinkedIn</a>
+        <a href="https://www.sportsdunia.com/authors/souranil-ghosh" target="_blank" class="contact-link">📰 Sportsdunia</a>
+        <a href="./resume/ATS_RESUME.pdf" target="_blank" class="contact-link">📄 Resume</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">SG</div>
+  <p class="footer-copy" id="footerCopy">© 2025 Souranil Ghosh. All rights reserved.</p>
+  <div class="footer-socials">
+    <a href="mailto:souranilghosh@gmail.com" class="footer-social" title="Email">✉</a>
+    <a href="https://linkedin.com/in/souranil-ghosh-327236241" target="_blank" class="footer-social" title="LinkedIn">in</a>
+    <a href="https://www.sportsdunia.com/authors/souranil-ghosh" target="_blank" class="footer-social" title="Sportsdunia">SD</a>
+  </div>
+</footer>
+
+<!-- Admin FAB -->
+<button class="admin-fab" id="adminFab" title="Manage Articles">✎</button>
+
+<!-- ===== MODAL: LOGIN ===== -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginModal')">✕</button>
+    <h2>Admin Login</h2>
+    <p class="modal-sub">Enter your credentials to manage portfolio content.</p>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="adminUser" placeholder="admin" autocomplete="username" />
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="adminPass" placeholder="••••••••" autocomplete="current-password" />
+      <div class="form-error" id="loginError">Incorrect credentials. Try again.</div>
+    </div>
+    <button class="btn-form-submit" onclick="attemptLogin()">Login</button>
+  </div>
+</div>
+
+<!-- ===== MODAL: ADD ARTICLE ===== -->
+<div class="modal-overlay" id="addArticleModal">
+  <div class="modal wide">
+    <button class="modal-close" onclick="closeModal('addArticleModal')">✕</button>
+    <h2>Add Article</h2>
+    <p class="modal-sub">Fill in the details to add a new writing sample to your portfolio.</p>
+    <input type="hidden" id="editArticleId" value="" />
+    <div class="form-group">
+      <label>Article Title *</label>
+      <input type="text" id="artTitle" placeholder="e.g. Fortnite Season 5: Everything You Need to Know" />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Publication *</label>
+        <select id="artPub">
+          <option value="India Today Gaming">India Today Gaming</option>
+          <option value="Sportsdunia">Sportsdunia</option>
+          <option value="EsportsGen">EsportsGen</option>
+          <option value="Custom">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" id="artCat" placeholder="e.g. Guides, Esports, Reviews" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Article URL *</label>
+      <input type="url" id="artUrl" placeholder="https://..." />
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Date Published</label>
+        <input type="date" id="artDate" />
+      </div>
+      <div class="form-group">
+        <label>Custom Publication Name (if Other)</label>
+        <input type="text" id="artCustomPub" placeholder="e.g. GameSpot" />
+      </div>
+    </div>
+    <div class="form-error" id="artError">Please fill in the required fields.</div>
+    <button class="btn-form-submit" id="artSubmitBtn" onclick="saveArticle()">Add to Portfolio</button>
+  </div>
+</div>
+
+<!-- ===== MODAL: MANAGE ARTICLES ===== -->
+<div class="modal-overlay" id="manageModal">
+  <div class="modal wide">
+    <button class="modal-close" onclick="closeModal('manageModal')">✕</button>
+    <h2>Manage Articles</h2>
+    <p class="modal-sub">Add, edit, or remove articles from your portfolio.</p>
+    <button class="btn-form-submit" style="margin-bottom:1rem;" onclick="openModal('addArticleModal'); resetArticleForm();">+ Add New Article</button>
+    <ul class="admin-list" id="adminArticleList"></ul>
+    <div style="margin-top:1.5rem; display:flex; gap:1rem;">
+      <button class="btn-form-submit" style="background:linear-gradient(135deg,#ff2d6b,#a00030); flex:1;" onclick="adminLogout()">Logout</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <span id="toastMsg">Done!</span>
+</div>
+
+<script>
+// ===== DEFAULT ARTICLES =====
+const DEFAULT_ARTICLES = [
+  {
+    id: 'default-1',
+    title: 'How to Finish the Holy City of Aratum Mission in DOOM: The Dark Ages',
+    publication: 'India Today Gaming',
+    category: 'Guides',
+    url: 'https://www.indiatodaygaming.com/guide/story/how-to-finish-the-holy-city-of-aratum-mission-in-doom-the-dark-ages-8737',
+    date: '2025-05',
+    isDefault: true
+  },
+  {
+    id: 'default-2',
+    title: 'Call of Duty: Mobile Season 2 – Crimson Fortuity in the Golden Turn Draw Guide',
+    publication: 'Sportsdunia',
+    category: 'Guides',
+    url: 'https://www.sportsdunia.com/gaming/call-of-duty-mobile-crimson-fortuity-in-the-golden-turn-draw',
+    date: '2025-12',
+    isDefault: true
+  },
+  {
+    id: 'default-3',
+    title: 'PUBG Mobile 4.3 Brings Major Anniversary Changes and New Tactical Features',
+    publication: 'Sportsdunia',
+    category: 'News',
+    url: 'https://www.sportsdunia.com/gaming/pubg-mobile',
+    date: '2025-11',
+    isDefault: true
+  },
+  {
+    id: 'default-4',
+    title: 'Fortnite Power Hour Explained: Global Timings, Arsenal Boost & Visitors Return Reward',
+    publication: 'Sportsdunia',
+    category: 'Guides',
+    url: 'https://www.sportsdunia.com/gaming/fortnite-power-hour',
+    date: '2025-12',
+    isDefault: true
+  }
+];
+
+// ===== STATE =====
+const ADMIN_USER = 'admin';
+const ADMIN_PASS = 'souranil2025'; // CHANGE THIS!
+let adminMode = false;
+let articles = [];
+let currentFilter = 'all';
+let footerClickCount = 0;
+let footerClickTimer = null;
+let editingId = null;
+
+// ===== INIT =====
+function init() {
+  loadArticles();
+  renderArticles();
+  setupCursor();
+  setupParticles();
+  setupScrollEffects();
+  setupTypewriter();
+  setupStats();
+  setupFilters();
+  setupReveal();
+  setupHamburger();
+}
+
+// ===== STORAGE =====
+function loadArticles() {
+  const saved = localStorage.getItem('sg_articles');
+  const custom = saved ? JSON.parse(saved) : [];
+  articles = [...DEFAULT_ARTICLES, ...custom];
+}
+
+function getCustomArticles() {
+  const saved = localStorage.getItem('sg_articles');
+  return saved ? JSON.parse(saved) : [];
+}
+
+function saveCustomArticles(arr) {
+  localStorage.setItem('sg_articles', JSON.stringify(arr));
+}
+
+// ===== RENDER ARTICLES =====
+function renderArticles() {
+  const grid = document.getElementById('articlesGrid');
+  let filtered = currentFilter === 'all'
+    ? articles
+    : articles.filter(a => a.publication === currentFilter);
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">📝</div><p>No articles in this category yet.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(a => {
+    const pubClass = {
+      'India Today Gaming': 'itg',
+      'Sportsdunia': 'sd',
+      'EsportsGen': 'eg',
+      'Custom': 'custom'
+    }[a.publication] || 'custom';
+
+    const pubLabel = a.customPub || a.publication;
+    const dateStr = a.date ? formatDate(a.date) : '';
+
+    return `
+    <a href="${a.url}" target="_blank" rel="noopener" class="article-card" data-id="${a.id}" data-pub="${a.publication}">
+      <div class="card-meta">
+        <span class="card-pub ${pubClass}">${pubLabel}</span>
+        ${dateStr ? `<span class="card-date">${dateStr}</span>` : ''}
+      </div>
+      <div class="card-title">${a.title}</div>
+      ${a.category ? `<div class="card-category">${a.category}</div>` : ''}
+      <div class="card-arrow">→</div>
+      ${!a.isDefault ? `
+      <div class="admin-card-btns">
+        <button class="admin-edit-btn" onclick="openEditArticle(event, '${a.id}')">Edit</button>
+        <button class="admin-del-btn" onclick="deleteArticle(event, '${a.id}')">Delete</button>
+      </div>` : ''}
+    </a>`;
+  }).join('');
+
+  // Re-attach cursor hover
+  document.querySelectorAll('.article-card').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+}
+
+function formatDate(str) {
+  if (!str) return '';
+  const parts = str.split('-');
+  if (parts.length === 2) {
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return `${months[parseInt(parts[1]) - 1]} ${parts[0]}`;
+  }
+  return str;
+}
+
+// ===== FILTERS =====
+function setupFilters() {
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      renderArticles();
+    });
+  });
+}
+
+// ===== ADMIN =====
+function setupFooterAdmin() {
+  const fc = document.getElementById('footerCopy');
+  fc.addEventListener('click', () => {
+    footerClickCount++;
+    clearTimeout(footerClickTimer);
+    footerClickTimer = setTimeout(() => { footerClickCount = 0; }, 2000);
+    if (footerClickCount >= 5) {
+      footerClickCount = 0;
+      if (!adminMode) openModal('loginModal');
+    }
+  });
+}
+
+function attemptLogin() {
+  const u = document.getElementById('adminUser').value.trim();
+  const p = document.getElementById('adminPass').value;
+  if (u === ADMIN_USER && p === ADMIN_PASS) {
+    adminMode = true;
+    document.body.classList.add('admin-mode');
+    closeModal('loginModal');
+    showToast('Welcome back, Admin! 🎉', 'success');
+    renderArticles();
+    renderAdminList();
+    setTimeout(() => openModal('manageModal'), 400);
+  } else {
+    document.getElementById('loginError').classList.add('show');
+  }
+}
+
+function adminLogout() {
+  adminMode = false;
+  document.body.classList.remove('admin-mode');
+  closeModal('manageModal');
+  showToast('Logged out.', 'success');
+  renderArticles();
+}
+
+document.getElementById('adminFab').addEventListener('click', () => {
+  renderAdminList();
+  openModal('manageModal');
+});
+
+function renderAdminList() {
+  const list = document.getElementById('adminArticleList');
+  const custom = getCustomArticles();
+  if (custom.length === 0) {
+    list.innerHTML = '<li style="color:var(--text-muted);font-size:0.85rem;">No custom articles added yet. Click "Add New Article" above.</li>';
+    return;
+  }
+  list.innerHTML = custom.map(a => `
+    <li>
+      <div>
+        <div class="admin-list-title">${a.title}</div>
+        <div class="admin-list-pub">${a.publication}</div>
+      </div>
+      <button class="admin-list-del" onclick="deleteFromManage('${a.id}')">Remove</button>
+    </li>
+  `).join('');
+}
+
+// ===== ARTICLE CRUD =====
+function resetArticleForm() {
+  editingId = null;
+  document.getElementById('editArticleId').value = '';
+  document.getElementById('artTitle').value = '';
+  document.getElementById('artPub').value = 'India Today Gaming';
+  document.getElementById('artCat').value = '';
+  document.getElementById('artUrl').value = '';
+  document.getElementById('artDate').value = '';
+  document.getElementById('artCustomPub').value = '';
+  document.getElementById('artError').classList.remove('show');
+  document.getElementById('artSubmitBtn').textContent = 'Add to Portfolio';
+}
+
+function saveArticle() {
+  const title = document.getElementById('artTitle').value.trim();
+  const publication = document.getElementById('artPub').value;
+  const category = document.getElementById('artCat').value.trim();
+  const url = document.getElementById('artUrl').value.trim();
+  const date = document.getElementById('artDate').value;
+  const customPub = document.getElementById('artCustomPub').value.trim();
+
+  if (!title || !url) {
+    document.getElementById('artError').classList.add('show');
+    return;
+  }
+
+  const custom = getCustomArticles();
+
+  if (editingId) {
+    const idx = custom.findIndex(a => a.id === editingId);
+    if (idx !== -1) {
+      custom[idx] = { ...custom[idx], title, publication, category, url, date, customPub };
+    }
+    showToast('Article updated! ✓', 'success');
+  } else {
+    const newArt = {
+      id: 'art-' + Date.now(),
+      title, publication, category, url, date, customPub,
+      isDefault: false
+    };
+    custom.push(newArt);
+    showToast('Article added to portfolio! ✓', 'success');
+  }
+
+  saveCustomArticles(custom);
+  loadArticles();
+  renderArticles();
+  renderAdminList();
+  closeModal('addArticleModal');
+  resetArticleForm();
+}
+
+function openEditArticle(e, id) {
+  e.preventDefault(); e.stopPropagation();
+  const custom = getCustomArticles();
+  const art = custom.find(a => a.id === id);
+  if (!art) return;
+  editingId = id;
+  document.getElementById('editArticleId').value = id;
+  document.getElementById('artTitle').value = art.title;
+  document.getElementById('artPub').value = art.publication;
+  document.getElementById('artCat').value = art.category || '';
+  document.getElementById('artUrl').value = art.url;
+  document.getElementById('artDate').value = art.date || '';
+  document.getElementById('artCustomPub').value = art.customPub || '';
+  document.getElementById('artSubmitBtn').textContent = 'Update Article';
+  openModal('addArticleModal');
+}
+
+function deleteArticle(e, id) {
+  e.preventDefault(); e.stopPropagation();
+  if (!confirm('Remove this article from your portfolio?')) return;
+  const custom = getCustomArticles().filter(a => a.id !== id);
+  saveCustomArticles(custom);
+  loadArticles();
+  renderArticles();
+  showToast('Article removed.', 'success');
+}
+
+function deleteFromManage(id) {
+  const custom = getCustomArticles().filter(a => a.id !== id);
+  saveCustomArticles(custom);
+  loadArticles();
+  renderArticles();
+  renderAdminList();
+  showToast('Article removed.', 'success');
+}
+
+// ===== MODALS =====
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('open');
+  });
+});
+
+// ===== TOAST =====
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.className = `toast show ${type}`;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ===== CURSOR =====
+function setupCursor() {
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
+  });
+
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  // Hover effect on interactive elements
+  const hoverEls = document.querySelectorAll('a, button, .filter-btn, .article-card');
+  hoverEls.forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+}
+
+// ===== PARTICLES =====
+function setupParticles() {
+  const canvas = document.getElementById('particles-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function randomParticle() {
+    return {
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      r: Math.random() * 1.5 + 0.3,
+      o: Math.random() * 0.5 + 0.1,
+      color: Math.random() > 0.7 ? '#00e5cc' : Math.random() > 0.5 ? '#ff2d6b' : '#ffffff'
+    };
+  }
+
+  for (let i = 0; i < 80; i++) particles.push(randomParticle());
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.o;
+      ctx.fill();
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+    });
+    // Draw connecting lines
+    ctx.globalAlpha = 1;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(0,229,204,${0.06 * (1 - dist/120)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+}
+
+// ===== TYPEWRITER =====
+function setupTypewriter() {
+  const words = ['esports', 'game reviews', 'FPS titles', 'MOBA meta', 'battle royales', 'game guides', 'tech journalism'];
+  let wi = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typewriter-word');
+  if (!el) return;
+
+  function type() {
+    const word = words[wi];
+    if (!deleting) {
+      el.textContent = word.slice(0, ci + 1);
+      ci++;
+      if (ci === word.length) {
+        setTimeout(() => { deleting = true; tick(); }, 1800);
+        return;
+      }
+    } else {
+      el.textContent = word.slice(0, ci - 1);
+      ci--;
+      if (ci === 0) {
+        deleting = false;
+        wi = (wi + 1) % words.length;
+      }
+    }
+    setTimeout(tick, deleting ? 60 : 90);
+  }
+  function tick() { type(); }
+  setTimeout(tick, 1200);
+}
+
+// ===== SCROLL EFFECTS =====
+function setupScrollEffects() {
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+}
+
+// ===== STATS COUNTER =====
+function setupStats() {
+  const counters = document.querySelectorAll('.stat-number[data-target]');
+  let triggered = false;
+
+  function animateCounter(el, target) {
+    let current = 0;
+    const inc = Math.ceil(target / 60);
+    const timer = setInterval(() => {
+      current = Math.min(current + inc, target);
+      el.textContent = current + (target >= 100 ? '+' : target === 40 ? '%' : '');
+      if (current >= target) clearInterval(timer);
+    }, 30);
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !triggered) {
+        triggered = true;
+        counters.forEach(c => animateCounter(c, parseInt(c.dataset.target)));
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const statsEl = document.getElementById('stats');
+  if (statsEl) observer.observe(statsEl);
+}
+
+// ===== REVEAL ON SCROLL =====
+function setupReveal() {
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => obs.observe(r));
+}
+
+// ===== HAMBURGER =====
+function setupHamburger() {
+  document.getElementById('hamburgerBtn').addEventListener('click', () => {
+    document.getElementById('mobileNav').classList.add('open');
+  });
+  document.getElementById('mobileClose').addEventListener('click', closeMobileNav);
+}
+function closeMobileNav() {
+  document.getElementById('mobileNav').classList.remove('open');
+}
+
+// ===== BOOT =====
+window.addEventListener('DOMContentLoaded', () => {
+  init();
+  setupFooterAdmin();
+});
+</script>
+</body>
+</html>
